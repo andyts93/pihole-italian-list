@@ -16,3 +16,23 @@ wget -O - https://raw.githubusercontent.com/gioxx/xfiles/master/filtri.txt >> li
 sed -e 's/\r//' -e '/^0.0.0.0/!d' -e '/localhost/d' -e 's/0.0.0.0//' -e 's/ \+/\t/' -e 's/#.*$//' -e 's/[ \t]*$//' < list.txt | sort -u > list2.txt
 cat list2.txt | tr -d " \t" > adlist.txt
 rm -rf list.txt list2.txt
+
+totalFilters=`cat adlist.txt| wc -l`
+
+echo "
+#------------------------------------[UPDATE]--------------------------------------
+# Title: Italian AD list for pihole
+# Expires: 1 day
+# Homepage: https://github.com/andyts93/pihole-italian-list
+# Help: https://github.com/andyts93/pihole-italian-list/issues
+# License: MIT
+# Total number of network filters: $totalFilters
+#------------------------------------[SUPPORT]-------------------------------------
+# You can support by:
+# - reporting false positives
+#-------------------------------------[INFO]---------------------------------------
+#
+# Italian AD list
+#------------------------------------[FILTERS]-------------------------------------" > adlist_pluggable.txt
+
+sed -e 's/^/0.0.0.0 /' adlist.txt >> adlist_pluggable.txt
