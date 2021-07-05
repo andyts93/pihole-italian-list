@@ -12,9 +12,11 @@ wget -O - http://hosts-file.net/ad_servers.asp >> list.txt
 wget -O - http://someonewhocares.org/hosts/hosts >> list.txt
 wget -O - https://easylist-downloads.adblockplus.org/malwaredomains_full.txt >> list.txt
 wget -O - https://raw.githubusercontent.com/gioxx/xfiles/master/filtri.txt >> list.txt
+wget -O - https://filtri-dns.ga/filtri.txt >> list.txt
+wget -O - https://gitcdn.xyz/cdn/gioxx/xfiles/bbcbbbeaca2449f7f977e65c4363ca9efd970ec3/filtri.txt >> list.txt
 
-sed -e 's/\r//' -e '/^0.0.0.0/!d' -e '/localhost/d' -e 's/0.0.0.0//' -e 's/ \+/\t/' -e 's/#.*$//' -e 's/[ \t]*$//' < list.txt | sort -u > list2.txt
-cat list2.txt | tr -d " \t" > adlist.txt
+sed -e '/^0.0.0.0/!d' -e '/localhost/d' -e 's/0.0.0.0//' -e 's/ \+/\t/' -e 's/#.*$//' -e 's/[ \t]*$//' < list.txt | sort -u > list2.txt
+cat list2.txt | tr -d " \t" | uniq > adlist.txt
 rm -rf list.txt list2.txt
 
 totalFilters=`cat adlist.txt| wc -l`
